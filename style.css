@@ -1,9 +1,40 @@
+html {
+    height: 100%;
+}
+
 body {
+    background-color: black;
+    color: white;
     text-align: center;
+    height: 100%;
 }
 
 button {
     border-radius: 5px;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #333;
+}
+
+#clocks {
+    margin: 0 auto;
+}
+
+#main-clock, #second-clock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+        border-radius: 30px;
+        background: none;
+        font-size: 20px;
+        height: 15px;
+        max-width: 15px;
+        margin: 50px;
+    }
 }
 
 #action-buttons {
@@ -13,10 +44,13 @@ button {
 #clock-wrapper {
     margin-top: 30px;
     font-size: 100px;
+    margin: 0;
 }
 
 #pomo-preview {
     margin-bottom: 20px;
+    font-size: 40px;
+    margin: 0;
 }
 
 .break {

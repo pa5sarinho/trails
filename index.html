@@ -8,18 +8,24 @@
         <button id="pomodoro-button">Pomodoro</button>
         <button id="stopwatch-button">Stopwatch</button>
     </div>
-    <div id="action-buttons">
-        <button id='start-button'>Start</button>
-        <button id='stop-button'>Stop</button>
-        <button id="plus">+</button>
-        <button id="minus">-</button>
+    <div id="clocks">
+        <div id="action-buttons">
+            <button id='start-button'>Start</button>
+            <button id='stop-button'>Stop</button>
+        </div>
+        <div id="main-clock">
+            <button id="minus">-</button>
+            <div id="clock-wrapper">
+                <!-- depending on the mode chosen, the clock script will append the apropriate clock here -->
+            </div>
+            <button id="plus">+</button>
+        </div>
+        <div id="second-clock">
+            <button id="preview-minus">-</button>
+            <div id="pomo-preview"></div>
+            <button id="preview-plus">+</button>
+        </div>
     </div>
-    <div id="clock-wrapper">
-        <!-- depending on the mode chosen, the clock script will append the apropriate clock here -->
-    </div>
-    <div id="pomo-preview"></div>
-    <button id="preview-plus">+</button>
-    <button id="preview-minus">-</button>
     <div id="total">0</div>
     <script type="module" src="clock_script.js"></script>
 </body>

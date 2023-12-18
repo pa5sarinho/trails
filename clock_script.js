@@ -1,7 +1,6 @@
 import {Pomodoro, Stopwatch} from './Clock.js';
 
 const clockObject = document.getElementById("clock-wrapper");
-//const clockObject = document.createElement('div');
 let clockMode = 0; // defaults to pomodoro mode
 const preview = document.getElementById("pomo-preview");
 const sessionAmount = document.getElementById("total");
@@ -31,13 +30,23 @@ function changeClock(mode)
     clockObject.classList.remove('break');
 }
 
+function halt()
+{ // stops the clock and reverts it to the beginning
+    if (clockMode == 1)
+        sessionAmount.innerText = parseInt(sessionAmount.innerText) + Math.floor(clock.getTime() / 60);
+    clock.stop();
+    clockObject.classList.remove('break');
+}
+
 createClock(clockMode);
 
-document.getElementById("pomodoro-button").addEventListener('click', (event) => {
+document.getElementById("pomodoro-button").addEventListener('click', (event) =>
+{
     if (clockMode != 0) changeClock(0);
 });
 
-document.getElementById("stopwatch-button").addEventListener('click', (event) => {
+document.getElementById("stopwatch-button").addEventListener('click', (event) =>
+{
     if (clockMode != 1)
     {
         while (preview.firstChild) preview.firstChild.remove();
@@ -45,28 +54,30 @@ document.getElementById("stopwatch-button").addEventListener('click', (event) =>
     }
 });
 
-document.getElementById("start-button").addEventListener('click', (event) => {
-    clock.start();
+document.getElementById("start-button").addEventListener('click', (event) =>
+{
+    if (!clock.running()) clock.start();
 });
 
-document.getElementById("stop-button").addEventListener('click', (event) => {
-    if (clockMode == 1)
-        sessionAmount.innerText = parseInt(sessionAmount.innerText) + Math.floor(clock.getTime() / 60);
-    clock.stop();
-    clockObject.classList.remove('break');
+document.getElementById("stop-button").addEventListener('click', (event) =>
+{
+    if (clock.running()) halt();
 });
 
-document.getElementById("plus").addEventListener('click', (event) => {
+document.getElementById("plus").addEventListener('click', (event) =>
+{
     if (!clock.running() && clockMode == 0) clock.updateTimer(5);
     preferences.workTime = clock.getTime()/60;
 });
 
-document.getElementById("minus").addEventListener('click', (event) => {
-    if (!clock.running() && clockMode == 0 && clock.getTime() >= 5 * 60) clock.updateTimer(-5);
+document.getElementById("minus").addEventListener('click', (event) =>
+{
+    if (!clock.running() && clockMode == 0 && clock.getTime() > 5 * 60) clock.updateTimer(-5);
     preferences.workTime = clock.getTime()/60;
 });
 
-document.getElementById("preview-plus").addEventListener('click', (event) => {
+document.getElementById("preview-plus").addEventListener('click', (event) =>
+{
     if (!clock.running())
     {
         preview_clock.updateTimer(5);
@@ -76,10 +87,18 @@ document.getElementById("preview-plus").addEventListener('click', (event) => {
 })
 
 document.getElementById("preview-minus").addEventListener('click', (event) => {
-    if (!clock.running() && preview_clock.getTime() >= 5 * 60)
+    if (!clock.running() && preview_clock.getTime() > 5 * 60)
     {
         preview_clock.updateTimer(-5);
         clock.setBreakTime(preview_clock.getTime());
     }
     preferences.breakTime = preview_clock.getTime()/60;
 })
+
+document.addEventListener('keydown', function(event)
+{
+    const key = event.key;
+    console.log('pressionou', key);
+
+    if (key == ' ' && clock.running()) halt();
+});
