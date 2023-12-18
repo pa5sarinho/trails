@@ -5,11 +5,11 @@ const clockObject = document.getElementById("clock-wrapper");
 let clockMode = 0; // defaults to pomodoro mode
 let clock;
 
-function createClock(mode)
+function createClock(mode, pomoMin=25, pomoBreak=5)
 {
     if (mode == 0)
     {
-        clock = new Pomodoro(clockObject, 25, 5);
+        clock = new Pomodoro(clockObject, pomoMin, pomoBreak);
     }
     else
     {
@@ -24,7 +24,7 @@ function changeClock(mode)
     createClock(clockMode);
 }
 
-createClock(clockMode);
+createClock(clockMode, 0.5, 1);
 
 document.getElementById("pomodoro-button").addEventListener('click', (event) => {
     if (clockMode != 0)
@@ -48,4 +48,12 @@ document.getElementById("start-button").addEventListener('click', (event) => {
 
 document.getElementById("stop-button").addEventListener('click', (event) => {
     clock.stop();
+});
+
+document.getElementById("plus").addEventListener('click', (event) => {
+    if (!clock.running() && clockMode == 0) clock.updateTimer(5);
+});
+
+document.getElementById("minus").addEventListener('click', (event) => {
+    if (!clock.running() && clockMode == 0 && clock.getTime() >= 5 * 60) clock.updateTimer(-5);
 });

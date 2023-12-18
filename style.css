@@ -1,7 +1,16 @@
-#clock-buttons {
+#clock-buttons, #clock-wrapper, #action-buttons {
     text-align: center;
 }
 
 button {
     border-radius: 5px;
+}
+
+#clock-wrapper {
+    margin: 30px;
+    font-size: 100px;
+}
+
+.break {
+    color: lightskyblue;
 }
