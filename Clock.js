@@ -1,11 +1,12 @@
 class Clock
 {
-    constructor(object, time)
+    constructor(object, time, session)
     {   // time is in minutes
         this._object = object;
         this._time = time * 60; // this value will change
         this._initialTime = this._time; // this will not
         this._isRunning = false;
+        this._session = session;
         this._timer;
     }
 
@@ -24,17 +25,17 @@ class Clock
         clearInterval(this._timer);
         this._time = this._initialTime;
         this._object.innerText = this.formatTime(this._time);
-        this._object.classList.remove('break');
         this._isRunning = false;
     }
 }
 
 export class Pomodoro extends Clock
 {
-    constructor(object, time, breakTime)
+    constructor(object, time, breakTime, session)
     {
-        super(object, time);
+        super(object, time, session);
         this._breakTime = breakTime * 60;
+        this._mode = 'work';
         this._object.innerText = this.formatTime(this._time);
     }
 
@@ -46,30 +47,29 @@ export class Pomodoro extends Clock
         this._initialTime = newtime;
         this._time = newtime;
         this._object.innerText = this.formatTime(newtime);
-        this._object.classList.remove('break');
     }
 
-    start(){
+    start()
+    {
         this._isRunning = true;
         this._timer = setInterval(() => {
             this._time--;
             this._object.innerText = this.formatTime(this._time);
             if (this._time === 0)
             {
-                clearInterval(this._timer);
-
-                if (this._object.innerText === this.formatTime(this._initialTime))
+                this.stop()
+                if (this._mode == 'work')
                 {
-                    this._time = this._breakTime;
+                    this._session.innerText = parseInt(this._session.innerText) + Math.floor(this._time / 60);
                     this._object.innerText = this.formatTime(this._breakTime);
-                    this._object.classList.toggle('break');
+                    this._time = this._breakTime;
+                    this._object.classList.add('break');
+                    this._mode = 'break';
                 }
-
-                else
-                {
+                else{
                     this._time = this._initialTime;
-                    this._object.innerText = this.formatTime(this._initialTime);
                     this._object.classList.remove('break');
+                    this._mode = 'work';
                 }
             }
         }, 1000);
@@ -78,8 +78,8 @@ export class Pomodoro extends Clock
 
 export class Stopwatch extends Clock
 {
-    constructor(object){
-        super(object);
+    constructor(object, session){
+        super(object, session);
         this._time = 0;
         this._initialTime = 0;
         this._object.innerText = this.formatTime(this._time);
