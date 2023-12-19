@@ -20,25 +20,27 @@ button {
 
 #clocks {
     margin: 0 auto;
+    top: 50%;
 }
 
 #main-clock, #second-clock{
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: default;
 
     button {
-        border-radius: 30px;
+        border-radius: 0;
         background: none;
         font-size: 20px;
-        height: 15px;
-        max-width: 15px;
+        height: 30px;
+        max-width: 20px;
         margin: 50px;
     }
 }
 
 #action-buttons {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 #clock-wrapper {
@@ -51,6 +53,11 @@ button {
     margin-bottom: 20px;
     font-size: 40px;
     margin: 0;
+    color: #666;
+}
+
+#preview-plus, #preview-minus {
+    color: #666;
 }
 
 .break {
